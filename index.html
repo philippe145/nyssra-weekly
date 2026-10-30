@@ -1,0 +1,392 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="NYSSRA slalom and GS weekly analysis: race reports, % behind the winner, run 1 vs run 2, and a speed-weighted club ranking.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 16 16%22%3E%3Crect x=%224%22 y=%221%22 width=%224%22 height=%2214%22 fill=%22%23c8202f%22/%3E%3Crect x=%229%22 y=%221%22 width=%224%22 height=%2214%22 fill=%22%231f5fbf%22/%3E%3C/svg%3E">
+<title>NYS Weekly Alpine Ski Racing Analysis</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Public+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: timing-board header, tab strip, one working view at a time; gate red = Windham/Sara, gate blue = Hunter/Liam */
+:root{
+  --snow:#f6f8fa; --panel:#ffffff; --ink:#15202b; --muted:#5b6b7a; --line:#d9e1e8; --soft:#edf2f6;
+  --red:#c8202f; --blue:#1f5fbf; --redsoft:#fbe6e8; --bluesoft:#e3edfb;
+  --good:#1d7a4a; --warn:#a86400; --bad:#b3261e;
+  --display:"Barlow Condensed","Arial Narrow",Arial,sans-serif;
+  --body:"Public Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --snow:#0f151b; --panel:#162029; --ink:#e7eef4; --muted:#93a4b3; --line:#2a3946; --soft:#1c2832;
+  --red:#ef5a66; --blue:#6aa3ff; --redsoft:#3a1d22; --bluesoft:#1a2b45; --good:#4cc185; --warn:#e3a54a; --bad:#ff7b72; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --snow:#0f151b; --panel:#162029; --ink:#e7eef4; --muted:#93a4b3; --line:#2a3946; --soft:#1c2832;
+  --red:#ef5a66; --blue:#6aa3ff; --redsoft:#3a1d22; --bluesoft:#1a2b45; --good:#4cc185; --warn:#e3a54a; --bad:#ff7b72; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--snow);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.5}
+.wrap{max-width:1180px;margin:0 auto;padding-block:20px 48px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+header.top{display:flex;flex-wrap:wrap;gap:12px 24px;align-items:flex-end;justify-content:space-between;border-bottom:3px solid var(--ink);padding-bottom:12px}
+h1{font-family:var(--display);font-weight:700;font-size:clamp(30px,5vw,44px);letter-spacing:.01em;line-height:1;margin:0;text-transform:uppercase;text-wrap:balance}
+h1 .gate{display:inline-block;width:.32em;height:.8em;background:var(--red);margin-right:.08em;vertical-align:-.04em}
+h1 .gate.b{background:var(--blue);margin-right:.25em}
+h2{font-family:var(--display);font-weight:600;font-size:26px;margin:0;text-transform:uppercase;letter-spacing:.02em}
+h3{font-family:var(--display);font-weight:600;font-size:19px;margin:0;text-transform:uppercase;letter-spacing:.03em}
+.sub{color:var(--muted);font-size:13px}
+.label{font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.num,td.n,th.n{font-variant-numeric:tabular-nums;font-family:var(--mono);font-size:13px}
+nav.tabs{display:flex;gap:4px;flex-wrap:wrap;margin:16px 0 20px}
+nav.tabs a{font-family:var(--display);font-size:18px;font-weight:600;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);text-decoration:none;padding:6px 14px;border-radius:4px;border:1px solid transparent}
+nav.tabs a[aria-current="page"]{color:var(--ink);background:var(--panel);border-color:var(--line)}
+nav.tabs a:focus-visible,button:focus-visible,select:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+select,button{font:inherit;font-size:14px;color:var(--ink);background:var(--panel);border:1px solid var(--line);border-radius:4px;padding:6px 10px}
+button{cursor:pointer;font-weight:600}
+button.primary{background:var(--ink);color:var(--snow);border-color:var(--ink)}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:4px;overflow:hidden}
+.seg button{border:0;border-radius:0;background:var(--panel);color:var(--muted);padding:6px 12px}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--snow)}
+.controls{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;margin-bottom:16px}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,520px),1fr));gap:20px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:18px;min-width:0}
+.card.red{border-top:5px solid var(--red)}.card.blue{border-top:5px solid var(--blue)}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:12px;margin:14px 0}
+.stat .v{font-family:var(--display);font-size:30px;font-weight:600;line-height:1.1;font-variant-numeric:tabular-nums}
+.stat .k{font-size:12px;color:var(--muted)}
+.tbl{overflow-x:auto;margin-top:10px}
+table{border-collapse:collapse;width:100%;font-size:13.5px}
+th{text-align:left;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600;border-bottom:1px solid var(--line);padding:6px 8px;white-space:nowrap}
+td{border-bottom:1px solid var(--soft);padding:6px 8px;white-space:nowrap}
+tr.hl-red td{background:var(--redsoft)} tr.hl-blue td{background:var(--bluesoft)}
+tr.me td{font-weight:700}
+.pill{display:inline-block;font-size:11px;font-weight:600;padding:1px 8px;border-radius:999px;border:1px solid var(--line);color:var(--muted);white-space:nowrap}
+.pill.up{color:var(--good);border-color:currentColor}.pill.down{color:var(--bad);border-color:currentColor}
+.pill.club-WMCR{color:var(--red);border-color:var(--red)}.pill.club-HUNTR{color:var(--blue);border-color:var(--blue)}
+ul.obs{margin:10px 0 0;padding-left:18px}ul.obs li{margin:4px 0;max-width:68ch}
+.empty{padding:40px 18px;text-align:center;color:var(--muted);border:1px dashed var(--line);border-radius:6px;background:var(--panel)}
+svg text{fill:var(--muted);font-family:var(--body);font-size:11px}
+svg .axis{stroke:var(--line)} svg .gridl{stroke:var(--soft)}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--muted);margin-top:6px}
+.sw{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:5px;vertical-align:-1px}
+.racehead{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:12px 0 4px}
+.note{font-size:13px;color:var(--muted);max-width:75ch}
+p{max-width:75ch}
+.status{font-size:12px;color:var(--muted)}
+@media (prefers-reduced-motion: reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header class="top">
+    <div>
+      <div class="label">NYSSRA youth races · slalom &amp; giant slalom · racers shown by first name</div>
+      <h1><span class="gate"></span><span class="gate b"></span>NYS Weekly Alpine Ski Racing Analysis</h1>
+    </div>
+    <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+      <label class="label" for="season">Season</label>
+      <select id="season"></select>
+      <span class="status" id="status">Connecting to the race database…</span>
+    </div>
+  </header>
+
+  <nav class="tabs" aria-label="Views">
+    <a href="#racers">Spotlight</a>
+    <a href="#clubs">Club ranking</a>
+    <a href="#races">Race reports</a>
+    <a href="#courses">Courses</a>
+    <a href="#method">Method &amp; data</a>
+  </nav>
+
+  <main id="view"><div class="empty">The race database is loading. Each NYSSRA slalom and GS race appears here once it is added to the database.</div></main>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script>
+(function(){
+const S={races:[],config:null,season:null,weight:0.6,group:'U16-U18',gender:'W',field:'east',raceId:null,loaded:false};
+const $=s=>document.querySelector(s);
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const fmtT=t=>{if(t==null)return '';const m=Math.floor(t/60),s=(t-m*60);return m?`${m}:${s.toFixed(2).padStart(5,'0')}`:s.toFixed(2)};
+const pct=v=>v==null?'–':(v>0?'+':'')+v.toFixed(1)+'%';
+const dd=d=>{const [y,m,da]=d.split('-');return new Date(+y,+m-1,+da).toLocaleDateString('en-US',{month:'short',day:'numeric'})};
+const GROUPS=['U14','U16-U18'];
+const clubName=c=>(S.config&&S.config.club_names&&S.config.club_names[c])||c;
+const clubCls=c=>c==='WMCR'?'hl-red':c==='HUNTR'?'hl-blue':'';
+
+function rankMap(arr){const o=[...arr].sort((a,b)=>a.v-b.v);const m=new Map();let pv=null,pr=0;o.forEach((x,i)=>{if(x.v!==pv){pr=i+1;pv=x.v}m.set(x.i,pr)});return m}
+
+function computeRace(doc){
+  const runs=doc.runs;const rs=doc.rows.map((a,i)=>{const r={};doc.cols.forEach((c,j)=>r[c]=a[j]);r.i=i;return r});
+  rs.forEach(r=>{
+    if(runs===1){r.r2=null;r.s2=null}
+    r.total=runs===2?(r.r1!=null&&r.r2!=null?+(r.r1+r.r2).toFixed(2):null):r.r1;
+    r.started=!(r.r1==null&&r.s1==='DNS'&&r.r2==null);
+    if(r.total!=null)r.status='Ranked';
+    else if(r.r1==null&&(r.s1==='DNS'||!r.s1)&&r.r2==null)r.status='DNS';
+    else if(r.r1==null)r.status=(r.s1||'DNF')+' run 1';
+    else r.status=(r.s2||'DNF')+' run 2';
+    if(r.st){r.status=r.st;if(r.st!=='Ranked'){r.total=null}}
+    r.finished=r.total!=null;
+  });
+  [1,2].forEach(k=>{const v=rs.filter(r=>r['r'+k]!=null).map(r=>({i:r.i,v:r['r'+k]}));if(!v.length)return;const best=Math.min(...v.map(x=>x.v));const m=rankMap(v);
+    rs.forEach(r=>{const t=r['r'+k];if(t!=null){r['r'+k+'_rank']=m.get(r.i);r['r'+k+'_gap']=(t/best-1)*100;r['r'+k+'_speed']=best/t*100}})});
+  const fin=rs.filter(r=>r.finished);
+  if(fin.length){const best=Math.min(...fin.map(r=>r.total));const m=rankMap(fin.map(r=>({i:r.i,v:r.total})));
+    const srt=[...fin].sort((a,b)=>a.total-b.total);
+    srt.forEach((r,j)=>{r.rank=m.get(r.i);r.gap_s=r.total-best;r.gap=(r.total/best-1)*100;r.gap_ahead=j?(r.total/srt[j-1].total-1)*100:0});
+    if(runs===2){const m1=rankMap(fin.map(r=>({i:r.i,v:r.r1})));fin.forEach(r=>r.gained=m1.get(r.i)-r.rank)}
+    const byc={};fin.forEach(r=>(byc[r.cls]=byc[r.cls]||[]).push(r));
+    Object.values(byc).forEach(a=>{const m2=rankMap(a.map(r=>({i:r.i,v:r.total})));a.forEach(r=>{r.class_rank=m2.get(r.i);r.class_n=a.length})});
+  }
+  const starters=rs.filter(r=>r.started).length;
+  return Object.assign({},doc,{R:rs,starters,finishers:fin.length,winner:fin.length?[...fin].sort((a,b)=>a.total-b.total)[0]:null});
+}
+
+function seasonRaces(){return S.races.filter(r=>r.season===S.season).sort((a,b)=>a.date.localeCompare(b.date)||a.id.localeCompare(b.id))}
+
+function clubScores(group,gender,w){
+  const races=seasonRaces().filter(r=>r.group===group&&r.gender===gender&&(S.field==='all'||r.division!=='West'));
+  const C={};const get=c=>C[c]=C[c]||{starts:0,fin:0,runs:[],racers:new Set(),races:new Set()};
+  races.forEach(rc=>{
+    rc.R.forEach(r=>{if(r.started&&!['IND','ASF','UNK'].includes(r.club)){const c=get(r.club);c.starts++;if(r.finished)c.fin++;c.racers.add(r.key);c.races.add(rc.id)}});
+    const entered=new Set(rc.R.filter(r=>r.started).map(r=>r.club));
+    [1,2].forEach(k=>{if(k===2&&rc.runs===1)return;const per={};rc.R.forEach(r=>{const s=r['r'+k+'_speed'];if(s!=null)(per[r.club]=per[r.club]||[]).push(s)});
+      entered.forEach(c=>{if(['IND','ASF','UNK'].includes(c))return;const top=(per[c]||[]).sort((a,b)=>b-a).slice(0,3);while(top.length<3)top.push(0);get(c).runs.push(top.reduce((a,b)=>a+b,0)/3)})});
+  });
+  const min=(S.config&&S.config.min_starts)||8;
+  const out=Object.entries(C).filter(([c,v])=>v.starts>=min).map(([c,v])=>{const sp=v.runs.reduce((a,b)=>a+b,0)/v.runs.length;const fr=100*v.fin/v.starts;
+    return {club:c,name:clubName(c),starts:v.starts,racers:v.racers.size,races:v.races.size,speed:sp,finish:fr,score:w*sp+(1-w)*fr}});
+  out.sort((a,b)=>b.score-a.score);out.forEach((x,i)=>x.rank=i+1);return out;
+}
+
+function racerRows(key){
+  const out=[];seasonRaces().forEach(rc=>{const r=rc.R.find(x=>x.key===key);if(r)out.push({rc,r})});return out;
+}
+
+/* ---------- views ---------- */
+function vRacers(){
+  const sp=(S.config&&S.config.spotlight)||[];
+  if(!sp.length)return empty('No spotlight racers are configured yet.');
+  return `<div class="grid2">${sp.map((p,ix)=>racerCard(p,ix?'blue':'red')).join('')}</div>`;
+}
+function racerCard(p,col){
+  const rows=racerRows(p.key);
+  if(!rows.length)return `<section class="card ${col}"><h2>${esc(p.name)}</h2><p class="sub">${esc(p.note||'')}</p><div class="empty">No ${esc(S.season)} slalom or GS results yet.</div></section>`;
+  const fin=rows.filter(x=>x.r.finished);
+  const avg=a=>a.length?a.reduce((s,x)=>s+x,0)/a.length:null;
+  const best=fin.length?fin.reduce((b,x)=>x.r.gap<b.r.gap?x:b):null;
+  const twoRun=rows.filter(x=>x.rc.runs===2&&!x.rc.total_only&&x.r.r1_gap!=null&&x.r.r2_gap!=null);
+  const r2better=twoRun.filter(x=>x.r.r2_gap<x.r.r1_gap).length;
+  const obs=[];
+  if(twoRun.length>=2)obs.push(`Run 2 was closer to the run winner than run 1 in ${r2better} of ${twoRun.length} two-run races (average ${pct(avg(twoRun.map(x=>x.r.r1_gap)))} in run 1 vs ${pct(avg(twoRun.map(x=>x.r.r2_gap)))} in run 2). Timing reports document course conditions for only some races, so this shows the pattern, not its cause.`);
+  ['GS','SL'].forEach(d=>{const f=fin.filter(x=>x.rc.disc===d);if(f.length>=2){const a=f[0],b=f[f.length-1];obs.push(`${d}: ${pct(a.r.gap)} behind the winner on ${dd(a.rc.date)} (${esc(a.rc.venue)}) and ${pct(b.r.gap)} on ${dd(b.rc.date)} (${esc(b.rc.venue)}) across ${f.length} finished races.`)}
+    else if(f.length===1)obs.push(`${d}: one finished race so far, ${pct(f[0].r.gap)} behind the winner at ${esc(f[0].rc.venue)}. Hypothesis only until more races come in.`)});
+  const cr=fin.filter(x=>x.r.class_rank);if(cr.length)obs.push(`Within the ${esc(fin[0].r.cls)} age class, an average finish in the top ${(avg(cr.map(x=>x.r.class_rank/x.r.class_n))*100).toFixed(0)}% of finishers.`);
+  return `<section class="card ${col}">
+    <div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:baseline"><h2>${esc(p.name)}</h2><span class="pill club-${esc(p.club)}">${esc(clubName(p.club))}</span></div>
+    <div class="sub">${esc(p.note||'')}</div>
+    <div class="stats">
+      <div class="stat"><div class="v">${rows.length}</div><div class="k">SL/GS starts</div></div>
+      <div class="stat"><div class="v">${Math.round(100*fin.length/rows.length)}%</div><div class="k">finished</div></div>
+      <div class="stat"><div class="v">${fin.length?pct(avg(fin.map(x=>x.r.gap))):'–'}</div><div class="k">avg behind winner</div></div>
+      <div class="stat"><div class="v">${best?best.r.rank+'/'+best.rc.finishers:'–'}</div><div class="k">closest to the winner${best?' · '+esc(best.rc.venue)+' '+best.rc.disc:''}</div></div>
+    </div>
+    ${trendChart(rows,col)}
+    <div class="tbl"><table><thead><tr><th>Date</th><th>Race</th><th class="n">Run 1</th><th class="n">R1 gap</th><th class="n">Run 2</th><th class="n">R2 gap</th><th class="n">Place</th><th class="n">Class</th><th class="n">Behind</th><th>R1→R2</th></tr></thead><tbody>
+    ${rows.map(({rc,r})=>`<tr><td>${dd(rc.date)}</td><td><a href="#races" data-race="${esc(rc.id)}">${esc(rc.venue)} ${rc.disc}</a></td>
+      <td class="n">${rc.total_only?'':(r.r1!=null?fmtT(r.r1)+' <span class="sub">('+r.r1_rank+')</span>':esc(r.s1||''))}</td><td class="n">${rc.total_only?'':pct(r.r1_gap)}</td>
+      <td class="n">${rc.runs===1?`<span class="sub">${rc.total_only?'total only':'1 run'}</span>`:(r.r2!=null?fmtT(r.r2)+' <span class="sub">('+r.r2_rank+')</span>':esc(r.s2||''))}</td><td class="n">${rc.runs===1?'':pct(r.r2_gap)}</td>
+      <td class="n">${r.finished?r.rank+'/'+rc.finishers:esc(r.status)}</td><td class="n">${r.class_rank?r.class_rank+'/'+r.class_n+' '+esc(r.cls):''}</td>
+      <td class="n">${r.finished?pct(r.gap):''}</td><td>${r.gained==null?'':`<span class="pill ${r.gained>0?'up':r.gained<0?'down':''}">${r.gained>0?'+':''}${r.gained}</span>`}</td></tr>`).join('')}
+    </tbody></table></div>
+    <h3 style="margin-top:16px">What the season shows</h3><ul class="obs">${obs.map(o=>`<li>${o}</li>`).join('')}</ul>
+  </section>`;
+}
+function trendChart(rows,col){
+  const pts=rows.filter(x=>x.r.finished);if(pts.length<2)return '';
+  const W=520,H=170,L=40,R=28,T=12,B=26;const mx=Math.max(10,Math.ceil(Math.max(...pts.map(x=>x.r.gap))/5)*5);
+  const X=i=>L+(W-L-R)*(pts.length===1?0.5:i/(pts.length-1));const Y=v=>T+(H-T-B)*(v/mx);
+  const ticks=[];for(let v=0;v<=mx;v+=mx>20?10:5)ticks.push(v);
+  const color=col==='red'?'var(--red)':'var(--blue)';
+  const line=pts.map((p,i)=>`${i?'L':'M'}${X(i).toFixed(1)},${Y(p.r.gap).toFixed(1)}`).join('');
+  return `<div class="label" style="margin-top:4px">% behind the winner, finished races (closer to the top is better)</div>
+  <svg viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="Percent behind the winner by race">
+  ${ticks.map(v=>`<line class="gridl" x1="${L}" x2="${W-R}" y1="${Y(v)}" y2="${Y(v)}"/><text x="${L-6}" y="${Y(v)+4}" text-anchor="end">${v}%</text>`).join('')}
+  <path d="${line}" fill="none" stroke="${color}" stroke-width="2"/>
+  ${pts.map((p,i)=>`<circle cx="${X(i)}" cy="${Y(p.r.gap)}" r="${i===pts.length-1?5:4}" fill="${p.rc.disc==='SL'?'var(--panel)':color}" stroke="${color}" stroke-width="2"><title>${esc(p.rc.venue)} ${p.rc.disc} ${dd(p.rc.date)}: ${pct(p.r.gap)}</title></circle><text x="${X(i)}" y="${H-8}" text-anchor="middle">${dd(p.rc.date)}</text>`).join('')}
+  </svg><div class="legend"><span><span class="sw" style="background:${color}"></span>GS</span><span><span class="sw" style="border:2px solid ${color};background:var(--panel)"></span>SL</span></div>`;
+}
+
+function vClubs(){
+  const w=S.weight;const res=clubScores(S.group,S.gender,w);
+  const alt=[0.6,0.7,0.8].map(x=>({w:x,r:clubScores(S.group,S.gender,x)}));
+  const rk=(c,a)=>{const f=a.r.find(x=>x.club===c);return f?'#'+f.rank:'–'};
+  const focus=(S.config&&S.config.focus_clubs)||['WMCR','HUNTR'];
+  const hh=GROUPS.flatMap(g=>['W','M'].map(gd=>({g,gd,r:clubScores(g,gd,w)})));
+  return `<div class="controls">
+    <div class="seg" role="group" aria-label="Age group">${GROUPS.map(g=>`<button data-group="${g}" aria-pressed="${S.group===g}">${g}</button>`).join('')}</div>
+    <div class="seg" role="group" aria-label="Gender">${[['W','Women'],['M','Men']].map(([g,l])=>`<button data-gender="${g}" aria-pressed="${S.gender===g}">${l}</button>`).join('')}</div>
+    <div class="seg" role="group" aria-label="Races counted">${[['east','East + States'],['all','All NYSSRA']].map(([f,l])=>`<button data-field="${f}" aria-pressed="${S.field===f}">${l}</button>`).join('')}</div>
+    <div class="seg" role="group" aria-label="Speed weighting">${[0.6,0.7,0.8].map(x=>`<button data-weight="${x}" aria-pressed="${w===x}">${Math.round(x*100)}/${Math.round(100-x*100)}</button>`).join('')}</div>
+    <span class="sub">Speed / finishing weight. 60/40 is the agreed default.</span>
+  </div>
+  <div class="grid2">
+    <section class="card"><h3>${esc(S.group)} ${S.gender==='W'?'women':'men'} · club ranking</h3>
+      <p class="note">Score = ${Math.round(w*100)}% speed index + ${Math.round(100-w*100)}% finish rate. Clubs with at least ${(S.config&&S.config.min_starts)||8} starts. ${S.field==='east'?'Counts East council races, state championships and open races (where Hunter and Windham race); West council fields are left out because their winning times are set by a different field.':'Counts every NYSSRA race, East and West councils mixed.'}</p>
+      ${res.length?`<div class="tbl"><table><thead><tr><th class="n">#</th><th>Club</th><th class="n">Score</th><th class="n">Speed</th><th class="n">Finish</th><th class="n">Starts</th><th class="n">Racers</th><th class="n">70/30</th><th class="n">80/20</th></tr></thead><tbody>
+      ${res.map(x=>`<tr class="${clubCls(x.club)}"><td class="n">${x.rank}</td><td>${esc(x.name)}</td><td class="n"><b>${x.score.toFixed(1)}</b></td><td class="n">${x.speed.toFixed(1)}</td><td class="n">${x.finish.toFixed(0)}%</td><td class="n">${x.starts}</td><td class="n">${x.racers}</td><td class="n">${rk(x.club,alt[1])}</td><td class="n">${rk(x.club,alt[2])}</td></tr>`).join('')}
+      </tbody></table></div>`:empty('No club has enough starts in this group yet.')}
+    </section>
+    <section class="card"><h3>Speed vs finishing</h3><p class="note">Upper right is the target: fast and finishing. Dot size shows starts.</p>${quadrant(res)}</section>
+  </div>
+  <section class="card" style="margin-top:20px"><h3>Hunter vs Windham</h3>
+    <div class="tbl"><table><thead><tr><th>Group</th>${focus.map(c=>`<th class="n">${esc(clubName(c))}</th>`).join('')}<th>Read</th></tr></thead><tbody>
+    ${hh.map(({g,gd,r})=>{const cells=focus.map(c=>{const f=r.find(x=>x.club===c);return f?`#${f.rank} of ${r.length} · ${f.score.toFixed(1)} <span class="sub">(speed ${f.speed.toFixed(0)}, finish ${f.finish.toFixed(0)}%)</span>`:'<span class="sub">too few starts</span>'});
+      const a=r.find(x=>x.club===focus[0]),b=r.find(x=>x.club===focus[1]);let read='';
+      if(a&&b){const ds=a.speed-b.speed,df=a.finish-b.finish;read=`${esc(ds>0?focus[0]:focus[1])} faster (+${Math.abs(ds).toFixed(1)}); ${esc(df>0?focus[0]:focus[1])} finishes more (+${Math.abs(df).toFixed(0)} pts)`}
+      return `<tr><td>${g} ${gd==='W'?'women':'men'}</td>${cells.map(c=>`<td class="n">${c}</td>`).join('')}<td>${read}</td></tr>`}).join('')}
+    </tbody></table></div>
+    <p class="note">Speed index: each run, a racer scores the run winner's time divided by their own time × 100. A club's run score is the average of its best three racers; an empty slot counts as zero, so depth of fast racers matters. A fast run that ends in a DNF on the other run still earns its speed credit.</p>
+  </section>`;
+}
+function quadrant(res){
+  if(!res.length)return '';
+  const W=520,H=320,L=44,R=16,T=14,B=36;const xmin=Math.min(40,...res.map(x=>Math.floor(x.speed/10)*10)),xmax=100,ymin=Math.min(50,...res.map(x=>Math.floor(x.finish/10)*10)),ymax=100;
+  const X=v=>L+(W-L-R)*(v-xmin)/(xmax-xmin),Y=v=>T+(H-T-B)*(1-(v-ymin)/(ymax-ymin));
+  const med=a=>{const s=[...a].sort((p,q)=>p-q);return s[Math.floor(s.length/2)]};
+  const mx=med(res.map(x=>x.speed)),my=med(res.map(x=>x.finish));const maxS=Math.max(...res.map(x=>x.starts));
+  const xt=[];for(let v=xmin;v<=xmax;v+=10)xt.push(v);const yt=[];for(let v=ymin;v<=ymax;v+=10)yt.push(v);
+  return `<svg viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="Club speed index against finish rate">
+  ${xt.map(v=>`<line class="gridl" x1="${X(v)}" x2="${X(v)}" y1="${T}" y2="${H-B}"/><text x="${X(v)}" y="${H-B+16}" text-anchor="middle">${v}</text>`).join('')}
+  ${yt.map(v=>`<line class="gridl" x1="${L}" x2="${W-R}" y1="${Y(v)}" y2="${Y(v)}"/><text x="${L-6}" y="${Y(v)+4}" text-anchor="end">${v}%</text>`).join('')}
+  <line class="axis" x1="${X(mx)}" x2="${X(mx)}" y1="${T}" y2="${H-B}" stroke-dasharray="4 4"/><line class="axis" x1="${L}" x2="${W-R}" y1="${Y(my)}" y2="${Y(my)}" stroke-dasharray="4 4"/>
+  <text x="${W-R}" y="${T+12}" text-anchor="end">fast + finishes</text>
+  <text x="${(L+W-R)/2}" y="${H-4}" text-anchor="middle">speed index (fastest = 100)</text>
+  ${res.map(x=>{const c=x.club==='WMCR'?'var(--red)':x.club==='HUNTR'?'var(--blue)':'var(--muted)';const r=5+9*Math.sqrt(x.starts/maxS);
+    return `<circle cx="${X(x.speed)}" cy="${Y(x.finish)}" r="${r.toFixed(1)}" fill="${c}" fill-opacity=".25" stroke="${c}" stroke-width="1.5"><title>${esc(x.name)}: speed ${x.speed.toFixed(1)}, finish ${x.finish.toFixed(0)}%</title></circle><text x="${X(x.speed)>W-70?X(x.speed)-r-3:X(x.speed)+r+3}" y="${Y(x.finish)+4}" text-anchor="${X(x.speed)>W-70?'end':'start'}" style="fill:${c};font-weight:600">${esc(x.club)}</text>`}).join('')}
+  </svg>`;
+}
+
+function vRaces(){
+  const list=seasonRaces();if(!list.length)return empty('No races in this season yet.');
+  if(!S.raceId||!list.find(r=>r.id===S.raceId)){const sp=(S.config&&S.config.spotlight)||[];const withSp=list.filter(rc=>rc.R.some(r=>sp.some(p=>p.key===r.key)));S.raceId=(withSp.length?withSp:list)[withSp.length?withSp.length-1:list.length-1].id}
+  const rc=list.find(r=>r.id===S.raceId);const fin=rc.R.filter(r=>r.finished).sort((a,b)=>a.rank-b.rank);
+  const sp=((S.config&&S.config.spotlight)||[]).map(p=>p.key);
+  const movers=fin.filter(r=>r.gained!=null);const up=[...movers].sort((a,b)=>b.gained-a.gained).slice(0,5),down=[...movers].sort((a,b)=>a.gained-b.gained).slice(0,5);
+  const second=fin[1],tenth=fin[9];const c=rc.course||{};
+  const others=rc.R.filter(r=>!r.finished&&r.status!=='DNS');
+  return `<div class="controls"><label class="label" for="racepick">Race</label><select id="racepick">${list.map(r=>`<option value="${esc(r.id)}" ${r.id===rc.id?'selected':''}>${dd(r.date)} · ${esc(r.venue)} ${r.disc} ${r.gender==='W'?'women':'men'} · ${esc(r.group)} · ${esc(r.division||'')}</option>`).join('')}</select></div>
+  <section class="card"><h2>${esc(rc.venue)} ${rc.disc==='SL'?'slalom':'giant slalom'} · ${rc.gender==='W'?'women':'men'}</h2>
+    <div class="sub">${esc(rc.series)} · ${new Date(rc.date+'T12:00').toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric',year:'numeric'})} · ${rc.total_only?'two runs, run splits not published':rc.runs===1?'one run':'two runs'} · ${esc(rc.division||'')} · <a href="${esc(rc.source)}" target="_blank" rel="noopener">official timing</a></div>
+    <div class="racehead">
+      <div class="stat"><div class="k">Winner</div><div class="v" style="font-size:22px">${rc.winner?esc(rc.winner.name):'–'}</div><div class="k">${rc.winner?esc(clubName(rc.winner.club))+' · '+fmtT(rc.winner.total):''}</div></div>
+      <div class="stat"><div class="k">Margin to 2nd</div><div class="v">${second?pct(second.gap):'–'}</div><div class="k">${second?second.gap_s.toFixed(2)+' s':''}</div></div>
+      <div class="stat"><div class="k">10th place behind</div><div class="v">${tenth?pct(tenth.gap):'–'}</div><div class="k">${tenth?tenth.gap_s.toFixed(2)+' s':''}</div></div>
+      <div class="stat"><div class="k">Finished</div><div class="v">${rc.finishers}/${rc.starters}</div><div class="k">${Math.round(100*rc.finishers/Math.max(1,rc.starters))}% of starters</div></div>
+      <div class="stat"><div class="k">Course</div><div class="v" style="font-size:20px">${c.course?esc(c.course):'Not published'}</div><div class="k">${c.vertical_m?c.vertical_m+' m vertical · '+esc(c.gates||''):'no technical data in the timing report'}</div></div>
+    </div>
+    ${rc.conditions?`<p class="note"><b>Conditions (official report):</b> ${esc(rc.conditions)}</p>`:'<p class="note">The timing report gives no course conditions, so run-to-run changes are shown without explanation.</p>'}
+    ${(rc.notes||[]).length?`<ul class="obs">${rc.notes.map(n=>`<li>${esc(n)}</li>`).join('')}</ul>`:''}
+    <div class="label" style="margin-top:12px">% behind the winner, every finisher</div>${gapBars(fin,sp)}
+  </section>
+  ${rc.runs===2?`<div class="grid2" style="margin-top:20px"><section class="card"><h3>Biggest climbers in run 2</h3>${moverList(up)}</section><section class="card"><h3>Biggest drops in run 2</h3>${moverList(down)}</section></div>`:''}
+  <section class="card" style="margin-top:20px"><h3>Full results</h3><div class="tbl"><table><thead><tr><th class="n">Pl</th><th class="n">Bib</th><th>Racer</th><th>Club</th><th>Class</th><th class="n">Run 1</th><th class="n">R1 gap</th><th class="n">Run 2</th><th class="n">R2 gap</th><th class="n">Total</th><th class="n">Behind</th><th class="n">To racer ahead</th><th>R1→R2</th></tr></thead><tbody>
+  ${[...fin,...others].map(r=>`<tr class="${clubCls(r.club)} ${sp.includes(r.key)?'me':''}"><td class="n">${r.finished?r.rank:''}</td><td class="n">${esc(r.bib)}</td><td>${esc(r.name)}</td><td>${esc(r.club)}</td><td>${esc(r.cls)}</td>
+    <td class="n">${rc.total_only?'':(r.r1!=null?fmtT(r.r1):esc(r.s1||''))}</td><td class="n">${rc.total_only?'':(r.r1_gap!=null?pct(r.r1_gap):'')}</td><td class="n">${rc.runs===1?'':(r.r2!=null?fmtT(r.r2):esc(r.s2||''))}</td><td class="n">${r.r2_gap!=null?pct(r.r2_gap):''}</td>
+    <td class="n">${r.finished?fmtT(r.total):esc(r.status)}</td><td class="n">${r.finished?pct(r.gap):''}</td><td class="n">${r.finished&&r.rank>1?pct(r.gap_ahead):''}</td><td>${r.gained==null?'':`<span class="pill ${r.gained>0?'up':r.gained<0?'down':''}">${r.gained>0?'+':''}${r.gained}</span>`}</td></tr>`).join('')}
+  </tbody></table></div><p class="note">Racers who did not finish run 1 may still start run 2 in youth races; their run-2 time counts toward speed but they are not ranked. Non-starters are left out.</p></section>`;
+}
+function gapBars(fin,sp){
+  if(!fin.length)return '';const W=560,rowH=12,L=30,T=6;const H=T+fin.length*rowH+18;const mx=Math.max(5,Math.ceil(Math.max(...fin.map(r=>r.gap))/5)*5);
+  const X=v=>L+(W-L-10)*v/mx;const ticks=[];for(let v=0;v<=mx;v+=mx>40?10:5)ticks.push(v);
+  return `<svg viewBox="0 0 ${W} ${H}" width="100%" style="max-width:680px" role="img" aria-label="Percent behind the winner for each finisher">
+  ${ticks.map(v=>`<line class="gridl" x1="${X(v)}" x2="${X(v)}" y1="${T}" y2="${H-16}"/><text x="${X(v)}" y="${H-3}" text-anchor="middle">${v}%</text>`).join('')}
+  ${fin.map((r,i)=>{const c=r.club==='WMCR'?'var(--red)':r.club==='HUNTR'?'var(--blue)':'var(--line)';const me=sp.includes(r.key);
+    return `<rect x="${L}" y="${T+i*rowH+1}" width="${Math.max(1,X(r.gap)-L).toFixed(1)}" height="${rowH-3}" fill="${c}" ${me?'stroke="var(--ink)" stroke-width="1.5"':''}><title>${r.rank}. ${esc(r.name)} (${esc(r.club)}) ${pct(r.gap)}</title></rect>${me?`<text x="${X(r.gap)+4}" y="${T+i*rowH+rowH-3}" style="fill:var(--ink);font-weight:700">${esc(r.name)} · ${r.rank}</text>`:''}${i%5===0?`<text x="${L-4}" y="${T+i*rowH+rowH-3}" text-anchor="end">${r.rank}</text>`:''}`}).join('')}
+  </svg><div class="legend"><span><span class="sw" style="background:var(--red)"></span>Windham</span><span><span class="sw" style="background:var(--blue)"></span>Hunter</span><span><span class="sw" style="background:var(--line)"></span>other clubs</span></div>`;
+}
+function moverList(a){if(!a.length)return '<p class="sub">No movers.</p>';return `<div class="tbl"><table><tbody>${a.map(r=>`<tr class="${clubCls(r.club)}"><td>${esc(r.name)}</td><td>${esc(r.club)}</td><td class="n">run 1: ${r.r1_rank} → final ${r.rank}</td><td><span class="pill ${r.gained>0?'up':r.gained<0?'down':''}">${r.gained>0?'+':''}${r.gained}</span></td></tr>`).join('')}</tbody></table></div>`}
+
+function vCourses(){
+  const list=seasonRaces();
+  const rowsH=list.map(rc=>{const c=rc.course||{};return `<tr><td>${dd(rc.date)}</td><td>${esc(rc.venue)}</td><td>${rc.disc}</td><td>${rc.gender==='W'?'W':'M'}</td><td>${esc(rc.group)}</td><td>${esc(c.course||'')}</td><td class="n">${c.vertical_m?c.vertical_m+' m':'–'}</td><td>${esc(c.gates||'')}</td><td>${esc(rc.conditions||'')}</td><td class="sub">${esc(c.source||'not published')}</td></tr>`}).join('');
+  return `<section class="card"><h2>Course library</h2><p class="note">Vertical drop and course names come from the race's own result document or timing report. Where neither publishes them, the cell stays blank rather than estimated. The same venue can use different trails for different races, so data is kept per race.</p>
+  <div class="tbl"><table><thead><tr><th>Date</th><th>Venue</th><th>Disc</th><th>Sex</th><th>Group</th><th>Course</th><th class="n">Vertical</th><th>Gates</th><th>Conditions</th><th>Source</th></tr></thead><tbody>${rowsH}</tbody></table></div></section>`;
+}
+function vMethod(){
+  return `<div class="grid2"><section class="card"><h2>How the numbers work</h2>
+  <ul class="obs">
+   <li><b>% behind the winner</b>: (racer's time ÷ winner's time − 1) × 100, per run and for the two-run total.</li>
+   <li><b>Run 1 → run 2</b>: a finisher's place after run 1 among the final finishers, compared with the final place.</li>
+   <li><b>Speed index</b>: run winner's time ÷ racer's time × 100, for every completed run, including a fast run that ended in a DNF on the other run.</li>
+   <li><b>Club score</b>: 60% speed index (average of the club's best three racers per run, empty slots count as zero) + 40% finish rate (starts that finished every run). Clubs need at least eight starts in the group to be ranked.</li>
+   <li><b>Age groups</b>: U14 races (Mud Sweat n Gears Cup) and U16-U18 races (Sports Page Cup, Empire State Winter Games, States), each split by women and men.</li>
+   <li>Super-G is outside the scope.</li>
+  </ul></section>
+  <section class="card"><h2>Data</h2><p class="note">Every race is stored as one record with each racer's run times, pulled from live-timing.com and vola.ussalivetiming.com. A weekly update adds the weekend's races each Monday from January 2027.</p>
+  <div class="stats"><div class="stat"><div class="v">${seasonRaces().length}</div><div class="k">races this season</div></div><div class="stat"><div class="v">${seasonRaces().reduce((a,r)=>a+r.R.length,0)}</div><div class="k">racer results</div></div></div>
+  <button class="primary" id="dl">Download Excel workbook</button> <span class="sub" id="dlmsg"></span>
+  <p class="note">Racers are shown by first name only; an anonymous code links each racer's results across races. Full results with names are on the official timing pages linked from each race report.</p><h3 style="margin-top:16px">Known gaps in 2025-26</h3><ul class="obs"><li>Mud Sweat n Gears GS races ran as one run.</li><li>West council races and the Woods Valley slalom come from AdminSkiRacing official tables: totals only, no run splits.</li><li>Course vertical drop is missing where neither the timing report nor the result document publishes it.</li><li>Races not posted to either timing site are missing.</li></ul></section></div>`;
+}
+function empty(t){return `<div class="empty">${esc(t)}</div>`}
+
+/* ---------- render ---------- */
+const ROUTES={racers:vRacers,clubs:vClubs,races:vRaces,courses:vCourses,method:vMethod};
+function route(){const h=(location.hash||'#racers').slice(1);return ROUTES[h]?h:'racers'}
+function render(){
+  const r=route();document.querySelectorAll('nav.tabs a').forEach(a=>a.setAttribute('aria-current',a.getAttribute('href')==='#'+r?'page':'false'));
+  if(!S.loaded){return}
+  if(!S.races.length){$('#view').innerHTML=empty('No races have been added to the database yet. Once a race is added, its results, the two spotlight racers and the club ranking appear here.');return}
+  $('#view').innerHTML=ROUTES[r]();
+}
+document.addEventListener('click',e=>{
+  const b=e.target.closest('button,a[data-race]');if(!b)return;
+  if(b.dataset.group){S.group=b.dataset.group;render()}
+  else if(b.dataset.gender){S.gender=b.dataset.gender;render()}
+  else if(b.dataset.weight){S.weight=+b.dataset.weight;render()}
+  else if(b.dataset.field){S.field=b.dataset.field;render()}
+  else if(b.dataset.race){S.raceId=b.dataset.race}
+  else if(b.id==='dl'){download()}
+});
+document.addEventListener('change',e=>{if(e.target.id==='racepick'){S.raceId=e.target.value;render()}if(e.target.id==='season'){S.season=e.target.value;render()}});
+window.addEventListener('hashchange',render);
+
+function seasons(){const s=[...new Set(S.races.map(r=>r.season))].sort();const sel=$('#season');sel.innerHTML=s.map(x=>`<option ${x===S.season?'selected':''}>${esc(x)}</option>`).join('')}
+
+async function download(){
+  const msg=$('#dlmsg');
+  try{
+    if(!window.XLSX){msg.textContent='The Excel library did not load.';return}
+    const wb=XLSX.utils.book_new();
+    const races=S.races.slice().sort((a,b)=>a.date.localeCompare(b.date));
+    XLSX.utils.book_append_sheet(wb,XLSX.utils.json_to_sheet(races.map(r=>({race_id:r.id,season:r.season,division:r.division||'',date:r.date,venue:r.venue,series:r.series,discipline:r.disc,gender:r.gender,group:r.group,runs:r.runs,starters:r.starters,finishers:r.finishers,winner:r.winner?r.winner.name:'',winner_club:r.winner?r.winner.club:'',winning_time:r.winner?fmtT(r.winner.total):'',course:(r.course||{}).course||'',vertical_m:(r.course||{}).vertical_m||'',conditions:r.conditions||'',source:r.source}))),'Races');
+    XLSX.utils.book_append_sheet(wb,XLSX.utils.json_to_sheet(races.flatMap(rc=>rc.R.map(r=>({race_id:rc.id,season:rc.season,date:rc.date,venue:rc.venue,discipline:rc.disc,gender:rc.gender,group:rc.group,bib:r.bib,name:r.name,club:r.club,class:r.cls,
+      run1:r.r1!=null?fmtT(r.r1):(r.s1||''),run1_s:r.r1,run1_rank:r.r1_rank??'',run1_gap_pct:r.r1_gap!=null?+r.r1_gap.toFixed(2):'',run1_speed:r.r1_speed!=null?+r.r1_speed.toFixed(2):'',
+      run2:rc.runs===1?'':(r.r2!=null?fmtT(r.r2):(r.s2||'')),run2_s:r.r2,run2_rank:r.r2_rank??'',run2_gap_pct:r.r2_gap!=null?+r.r2_gap.toFixed(2):'',run2_speed:r.r2_speed!=null?+r.r2_speed.toFixed(2):'',
+      total:r.finished?fmtT(r.total):'',total_s:r.total,status:r.status,place:r.rank??'',class_place:r.class_rank??'',gap_pct:r.gap!=null?+r.gap.toFixed(2):'',gap_to_ahead_pct:r.gap_ahead!=null?+r.gap_ahead.toFixed(2):'',places_gained_run2:r.gained??''})))),'Results');
+    const cs=[];[...new Set(races.map(r=>r.season))].forEach(se=>{const keep=S.season;S.season=se;GROUPS.forEach(g=>['W','M'].forEach(gd=>clubScores(g,gd,0.6).forEach(x=>{const r7=clubScores(g,gd,0.7).find(y=>y.club===x.club),r8=clubScores(g,gd,0.8).find(y=>y.club===x.club);cs.push({season:se,group:g,gender:gd,rank_60_40:x.rank,club:x.club,club_name:x.name,score_60_40:+x.score.toFixed(1),speed_index:+x.speed.toFixed(1),finish_rate_pct:+x.finish.toFixed(1),starts:x.starts,racers:x.racers,rank_70_30:r7?r7.rank:'',rank_80_20:r8?r8.rank:''})})));S.season=keep});
+    XLSX.utils.book_append_sheet(wb,XLSX.utils.json_to_sheet(cs),'Club scores');
+    XLSX.utils.book_append_sheet(wb,XLSX.utils.json_to_sheet(races.map(r=>({race_id:r.id,date:r.date,venue:r.venue,discipline:r.disc,gender:r.gender,course:(r.course||{}).course||'',vertical_m:(r.course||{}).vertical_m||'',gates:(r.course||{}).gates||'',conditions:r.conditions||'',source:(r.course||{}).source||''}))),'Courses');
+    const buf=XLSX.write(wb,{bookType:'xlsx',type:'array'});
+    const url=URL.createObjectURL(new Blob([buf],{type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'}));const a=document.createElement('a');a.href=url;a.download='NYS alpine race data.xlsx';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),2000);msg.textContent='Downloaded.';
+  }catch(e){msg.textContent=e&&e.code==='declined'?'Download cancelled.':'The workbook could not be saved here.'}
+}
+
+/* ---------- data ---------- */
+(async function(){
+  render();const status=$('#status');
+  try{
+    const get=f=>fetch('data/'+f+'?v='+Date.now()).then(r=>{if(!r.ok)throw new Error(f);return r.json()});
+    const [races,cfg]=await Promise.all([get('races.json'),get('config.json')]);
+    S.config=cfg;S.races=races.map(computeRace);
+    const ss=[...new Set(S.races.map(r=>r.season))].sort();S.season=ss[ss.length-1]||null;
+    S.loaded=true;seasons();
+    const last=S.races.map(r=>r.date).sort().pop();
+    status.textContent=S.races.length?`${S.races.length} races · latest ${last?dd(last)+' '+last.slice(0,4):''}`:'No races yet';
+    render();
+  }catch(e){status.textContent='The race data could not be loaded.';S.loaded=true;render()}
+})();
+})();
+</script>
+</body>
+</html>

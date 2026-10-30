@@ -1,0 +1,417 @@
+{
+ "spotlight": [
+  {
+   "key": "r5d3cbc",
+   "name": "Sara",
+   "club": "WMCR",
+   "group": "U16-U18",
+   "gender": "W",
+   "note": "U16 in 2025-26; races U18 from the 2026-27 season"
+  },
+  {
+   "key": "r18af77",
+   "name": "Liam",
+   "club": "HUNTR",
+   "group": "U14",
+   "gender": "M",
+   "note": "First-year U14 in 2025-26; second-year U14 in 2026-27"
+  }
+ ],
+ "focus_clubs": [
+  "WMCR",
+  "HUNTR"
+ ],
+ "weight_speed": 0.6,
+ "min_starts": 8,
+ "club_names": {
+  "WMCR": "Windham Mountain Club Racing",
+  "HUNTR": "Hunter Mountain",
+  "WMR": "West Mountain Racing",
+  "NYSEF": "NYSEF (Gore/Whiteface)",
+  "W4K": "Winter4Kids",
+  "WOODS": "Woods Valley",
+  "PLAT": "Plattekill",
+  "HO": "HoliMont",
+  "LB": "Labrador",
+  "HV": "Holiday Valley",
+  "GPSC": "Greek Peak",
+  "BSC": "Buffalo Ski Club",
+  "BMRC": "Bristol Mountain",
+  "SNOWR": "Snow Ridge",
+  "OAK": "Oak Mountain",
+  "HHRT": "Hunt Hollow",
+  "KB": "Kissing Bridge",
+  "SG": "Song Mountain",
+  "SONG": "Song Mountain",
+  "SNOWM": "Snowmellow",
+  "BRANT": "Brantling",
+  "GMVS": "Green Mountain Valley School",
+  "MC": "Mountain Creek (NJ)",
+  "SMA": "SMA",
+  "RM": "Royal Mountain",
+  "PLRBR": "Polar Bear Ski Club",
+  "NWOOD": "Northwood School"
+ },
+ "courses": [
+  {
+   "race_id": "LT297648",
+   "venue": "Windham",
+   "disc": "SL",
+   "date": "2026-01-10",
+   "course": "WHYNOT",
+   "vertical_m": 145,
+   "source": "Windham Mountain Club result PDF"
+  },
+  {
+   "race_id": "LT297650",
+   "venue": "Windham",
+   "disc": "SL",
+   "date": "2026-01-10",
+   "course": "WHYNOT",
+   "vertical_m": 145,
+   "source": "Windham Mountain Club result PDF"
+  },
+  {
+   "race_id": "ASU0867-M",
+   "venue": "Holiday Valley",
+   "disc": "GS",
+   "date": "2026-01-10",
+   "course": "",
+   "vertical_m": 131,
+   "source": "AdminSkiRacing result document (https://adminskiracing.com/event/1602)"
+  },
+  {
+   "race_id": "ASU0866-W",
+   "venue": "Holiday Valley",
+   "disc": "GS",
+   "date": "2026-01-10",
+   "course": "",
+   "vertical_m": 131,
+   "source": "AdminSkiRacing result document (https://adminskiracing.com/event/1602)"
+  },
+  {
+   "race_id": "LT297866",
+   "venue": "Belleayre",
+   "disc": "GS",
+   "date": "2026-01-11",
+   "vertical_m": 255,
+   "source": "AdminSkiRacing result document, event 1538"
+  },
+  {
+   "race_id": "LT297865",
+   "venue": "Belleayre",
+   "disc": "GS",
+   "date": "2026-01-11",
+   "vertical_m": 255,
+   "source": "AdminSkiRacing result document, event 1538"
+  },
+  {
+   "race_id": "ASU1315-M",
+   "venue": "HoliMont",
+   "disc": "SL",
+   "date": "2026-01-11",
+   "course": "",
+   "vertical_m": 161,
+   "source": "AdminSkiRacing result document (https://adminskiracing.com/event/1577)"
+  },
+  {
+   "race_id": "ASU1314-W",
+   "venue": "HoliMont",
+   "disc": "SL",
+   "date": "2026-01-11",
+   "course": "",
+   "vertical_m": 161,
+   "source": "AdminSkiRacing result document (https://adminskiracing.com/event/1577)"
+  },
+  {
+   "race_id": "LT300011",
+   "venue": "West Mountain",
+   "disc": "GS",
+   "date": "2026-01-24",
+   "vertical_m": 290,
+   "source": "live-timing official results page"
+  },
+  {
+   "race_id": "LT300010",
+   "venue": "West Mountain",
+   "disc": "GS",
+   "date": "2026-01-24",
+   "vertical_m": 290,
+   "source": "live-timing official results page"
+  },
+  {
+   "race_id": "V44917",
+   "venue": "Gore",
+   "disc": "GS",
+   "date": "2026-01-24",
+   "vertical_m": 190,
+   "source": "AdminSkiRacing result document, event 1382"
+  },
+  {
+   "race_id": "V44918",
+   "venue": "Gore",
+   "disc": "GS",
+   "date": "2026-01-24",
+   "vertical_m": 190,
+   "source": "AdminSkiRacing result document, event 1382"
+  },
+  {
+   "race_id": "ASN0707-M",
+   "venue": "Holiday Valley",
+   "disc": "SL",
+   "date": "2026-01-24",
+   "course": "",
+   "vertical_m": 96,
+   "source": "AdminSkiRacing result document (https://adminskiracing.com/event/1603)"
+  },
+  {
+   "race_id": "ASN0706-W",
+   "venue": "Holiday Valley",
+   "disc": "SL",
+   "date": "2026-01-24",
+   "course": "",
+   "vertical_m": 96,
+   "source": "AdminSkiRacing result document (https://adminskiracing.com/event/1603)"
+  },
+  {
+   "race_id": "ASU0994-M",
+   "venue": "Greek Peak",
+   "disc": "GS",
+   "date": "2026-01-24",
+   "course": "",
+   "vertical_m": 202,
+   "source": "AdminSkiRacing result document (https://adminskiracing.com/event/1544)"
+  },
+  {
+   "race_id": "ASU0995-W",
+   "venue": "Greek Peak",
+   "disc": "GS",
+   "date": "2026-01-24",
+   "course": "",
+   "vertical_m": 216,
+   "source": "AdminSkiRacing result document (https://adminskiracing.com/event/1544)"
+  },
+  {
+   "race_id": "V44984",
+   "venue": "Gore",
+   "disc": "GS",
+   "date": "2026-01-25",
+   "vertical_m": 240,
+   "source": "AdminSkiRacing result document, event 1383"
+  },
+  {
+   "race_id": "V44985",
+   "venue": "Gore",
+   "disc": "GS",
+   "date": "2026-01-25",
+   "vertical_m": 353,
+   "source": "AdminSkiRacing result document, event 1383"
+  },
+  {
+   "race_id": "LT300357",
+   "venue": "West Mountain",
+   "disc": "SL",
+   "date": "2026-01-25",
+   "course": "FACE",
+   "start_m": 235,
+   "finish_m": 131,
+   "vertical_m": 104,
+   "homologation": "12586/11/17",
+   "gates": "43/(42)",
+   "source": "live-timing report 300342/300357 (25 Jan 2026)"
+  },
+  {
+   "race_id": "LT300342",
+   "venue": "West Mountain",
+   "disc": "SL",
+   "date": "2026-01-25",
+   "course": "FACE",
+   "start_m": 235,
+   "finish_m": 131,
+   "vertical_m": 104,
+   "homologation": "12586/11/17",
+   "gates": "43/(42)",
+   "source": "live-timing report 300342/300357 (25 Jan 2026)"
+  },
+  {
+   "race_id": "ASN1122-M",
+   "venue": "HoliMont",
+   "disc": "GS",
+   "date": "2026-01-25",
+   "course": "",
+   "vertical_m": 161,
+   "source": "AdminSkiRacing result document (https://adminskiracing.com/event/1579)"
+  },
+  {
+   "race_id": "ASN1121-W",
+   "venue": "HoliMont",
+   "disc": "GS",
+   "date": "2026-01-25",
+   "course": "",
+   "vertical_m": 161,
+   "source": "AdminSkiRacing result document (https://adminskiracing.com/event/1579)"
+  },
+  {
+   "race_id": "ASU1057-M",
+   "venue": "Labrador",
+   "disc": "GS",
+   "date": "2026-01-25",
+   "course": "",
+   "vertical_m": 175,
+   "source": "AdminSkiRacing result document (https://adminskiracing.com/event/1450)"
+  },
+  {
+   "race_id": "ASU1058-W",
+   "venue": "Labrador",
+   "disc": "GS",
+   "date": "2026-01-25",
+   "course": "",
+   "vertical_m": 175,
+   "source": "AdminSkiRacing result document (https://adminskiracing.com/event/1450)"
+  },
+  {
+   "race_id": "LT303052",
+   "venue": "Windham",
+   "disc": "SL",
+   "date": "2026-02-07",
+   "course": "WARM UP",
+   "start_m": 717,
+   "finish_m": 573,
+   "vertical_m": 144,
+   "homologation": "U2375/11/18",
+   "gates": "45-50 per run",
+   "source": "live-timing results PDF 303049/303052 (7 Feb 2026)"
+  },
+  {
+   "race_id": "LT303049",
+   "venue": "Windham",
+   "disc": "SL",
+   "date": "2026-02-07",
+   "course": "WARM UP",
+   "start_m": 717,
+   "finish_m": 573,
+   "vertical_m": 144,
+   "homologation": "U2375/11/18",
+   "gates": "45-50 per run",
+   "source": "live-timing results PDF 303049/303052 (7 Feb 2026)"
+  },
+  {
+   "race_id": "ASN0856-M",
+   "venue": "Greek Peak",
+   "disc": "GS",
+   "date": "2026-02-07",
+   "course": "",
+   "vertical_m": 166,
+   "source": "AdminSkiRacing result document (https://adminskiracing.com/event/1545)"
+  },
+  {
+   "race_id": "ASN0857-W",
+   "venue": "Greek Peak",
+   "disc": "GS",
+   "date": "2026-02-07",
+   "course": "",
+   "vertical_m": 166,
+   "source": "AdminSkiRacing result document (https://adminskiracing.com/event/1545)"
+  },
+  {
+   "race_id": "LT303324",
+   "venue": "Belleayre",
+   "disc": "GS",
+   "date": "2026-02-08",
+   "course": "Dot Nebel",
+   "vertical_m": 214,
+   "gates": "35",
+   "source": "live-timing results PDF 303324"
+  },
+  {
+   "race_id": "LT303322",
+   "venue": "Belleayre",
+   "disc": "GS",
+   "date": "2026-02-08",
+   "course": "Dot Nebel",
+   "vertical_m": 214,
+   "gates": "35",
+   "source": "live-timing results PDF 303322"
+  },
+  {
+   "race_id": "ASN0905-M",
+   "venue": "Labrador",
+   "disc": "SL",
+   "date": "2026-02-08",
+   "course": "",
+   "vertical_m": 143,
+   "source": "AdminSkiRacing result document (https://adminskiracing.com/event/1452)"
+  },
+  {
+   "race_id": "ASN0906-W",
+   "venue": "Labrador",
+   "disc": "SL",
+   "date": "2026-02-08",
+   "course": "",
+   "vertical_m": 143,
+   "source": "AdminSkiRacing result document (https://adminskiracing.com/event/1452)"
+  },
+  {
+   "race_id": "ASU1398-M",
+   "venue": "Woods Valley",
+   "disc": "SL",
+   "date": "2026-02-14",
+   "course": "",
+   "vertical_m": 91,
+   "source": "AdminSkiRacing result document (https://adminskiracing.com/event/1873)"
+  },
+  {
+   "race_id": "ASU1397-W",
+   "venue": "Woods Valley",
+   "disc": "SL",
+   "date": "2026-02-14",
+   "course": "",
+   "vertical_m": 91,
+   "source": "AdminSkiRacing result document (https://adminskiracing.com/event/1873)"
+  },
+  {
+   "race_id": "LT307020",
+   "venue": "West Mountain",
+   "disc": "GS",
+   "date": "2026-03-07",
+   "course": "CURE / GNARWALL / FACE",
+   "start_m": 421,
+   "finish_m": 131,
+   "vertical_m": 290,
+   "homologation": "12586/11/17",
+   "gates": "44/(41), 42/(40)",
+   "source": "live-timing report 307020/307021 (7 Mar 2026)"
+  },
+  {
+   "race_id": "LT307021",
+   "venue": "West Mountain",
+   "disc": "GS",
+   "date": "2026-03-07",
+   "course": "CURE / GNARWALL / FACE",
+   "start_m": 421,
+   "finish_m": 131,
+   "vertical_m": 290,
+   "homologation": "12586/11/17",
+   "gates": "44/(41), 42/(40)",
+   "source": "live-timing report 307020/307021 (7 Mar 2026)"
+  },
+  {
+   "race_id": "LT307190",
+   "venue": "West Mountain",
+   "disc": "SL",
+   "date": "2026-03-08",
+   "vertical_m": 165,
+   "source": "AdminSkiRacing result document, event 1352"
+  },
+  {
+   "race_id": "LT307191",
+   "venue": "West Mountain",
+   "disc": "SL",
+   "date": "2026-03-08",
+   "vertical_m": 165,
+   "source": "AdminSkiRacing result document, event 1352"
+  }
+ ],
+ "updated": "2026-10-30",
+ "season_current": "2026-27"
+}
